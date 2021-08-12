@@ -8,6 +8,7 @@ The company's extensive portfolio of products includes fiber-optic transceivers,
 
 All of our products have passed CE, RoHs and FCC compliance testing and we can assure our customers that we meet strict guidelines for safety and quality. Meanwhile, SAE Co. has succeeded in gaining the technology license of vice-presidency for science and technology of Iran. These high quality products, which are manufactured locally, have 2 years warranty and 10 years after sale services.
 
+![1-1582629034.png](http://sae-net.com/image/image_page/1-1582629034.png)
 
 ## contact
 
