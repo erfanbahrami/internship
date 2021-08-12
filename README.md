@@ -1,6 +1,6 @@
 #  [Smart Architecture of Espadana (SAE) Co](http://sae-net.com/)
 
-![logo_footer_en.png](http://sae-net.com/user/rtl/img/logo_footer_en.png)
+![logo_footer_en.png](http://sae-net.com/image/image_page/1579347881.en.png)
 
 Smart Architecture of Espadana (SAE) Co. was founded in 2006 by experienced and smart engineers with several years of experience in designing high frequency electronic systems for telecommunication, video processing in CCTV and tele-controlling industry.
 
