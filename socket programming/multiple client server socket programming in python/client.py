@@ -1,41 +1,29 @@
-# Import socket module
 import socket
 
+client_socket = socket.socket()
+host = '172.20.10.7'
+port = 12345
+client_socket.connect((host,port))
 
-def Main():
-    # local host IP '127.0.0.1'
-    host = '127.0.0.1'
+#recieve connection message from server
+recv_msg = client_socket.recv(1024)
+print recv_msg
 
-    # Define the port on which you want to connect
-    port = 12345
+#send user details to server
+print("your user name(prefix with #):" + socket.gethostname() + "\n")
+send_msg = ("#"+socket.gethostname())
+client_socket.send(send_msg)
 
-    s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 
-    # connect to server on local computer
-    s.connect((host,port))
+#receive and send message from/to different user/s
 
-    # message you send to server
-    message = "shaurya says geeksforgeeks"
-    while True:
+while True:
+    recv_msg = client_socket.recv(1024)
+    print recv_msg
+    send_msg = raw_input("Send your message in format [@user:message] ")
+    if send_msg == 'exit':
+        break;
+    else:
+        client_socket.send(send_msg)
 
-        # message sent to server
-        s.send(message.encode('ascii'))
-
-        # messaga received from server
-        data = s.recv(1024)
-
-        # print the received message
-        # here it would be a reverse of sent message
-        print('Received from the server :',str(data.decode('ascii')))
-
-        # ask the client whether he wants to continue
-        ans = input('\nDo you want to continue(y/n) :')
-        if ans == 'y':
-            continue
-        else:
-            break
-    # close the connection
-    s.close()
-
-if __name__ == '__main__':
-    Main()
+client_socket.close()

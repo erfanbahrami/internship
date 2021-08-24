@@ -1,64 +1,30 @@
-# import socket programming library
-import socket
+import socket,select
 
-# import thread module
-from _thread import *
-import threading
+port = 12345
+socket_list = []
+users = {}
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+server_socket.bind(('172.20.10.2',port))
+server_socket.listen(5)
+socket_list.append(server_socket)
+while True:
+    ready_to_read,ready_to_write,in_error = select.select(socket_list,[],[],0)
+    for sock in ready_to_read:
+        if sock == server_socket:
+            connect, addr = server_socket.accept()
+            socket_list.append(connect)
+            connect.send("You are connected from:" + str(addr))
+        else:
+            try:
+                data = sock.recv(2048)
+                if data.startswith("#"):
+                    users[data[1:].lower()]=connect
+                    print "User " + data[1:] +" added."
+                    connect.send("Your user detail saved as : "+str(data[1:]))
+                elif data.startswith("@"):
+                    users[data[1:data.index(':')].lower()].send(data[1:data.index(':')].lower()+data[data.index(':')+1:])
+            except:
+                continue
 
-print_lock = threading.Lock()
-
-# thread function
-def threaded(c):
-    while True:
-
-        # data received from client
-        data = c.recv(1024)
-        if not data:
-            print('Bye')
-            
-            # lock released on exit
-            print_lock.release()
-            break
-
-        # reverse the given string from client
-        data = data[::-1]
-
-        # send back reversed string to client
-        c.send(data)
-
-    # connection closed
-    c.close()
-
-
-def Main():
-    host = ""
-
-    # reverse a port on your computer
-    # in our case it is 12345 but it
-    # can be anything
-    port = 12345
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.bind((host, port))
-    print("socket binded to port", port)
-
-    # put the socket into listening mode
-    s.listen(5)
-    print("socket is listening")
-
-    # a forever loop until client wants to exit
-    while True:
-
-        # establish connection with client
-        c, addr = s.accept()
-
-        # lock acquired by client
-        print_lock.acquire()
-        print('Connected to :', addr[0], ':', addr[1])
-
-        # Start a new thread and return its identifier
-        start_new_thread(threaded, (c,))
-    s.close()
-
-
-if __name__ == '__main__':
-    Main()
+server_socket.close()
